@@ -9,6 +9,17 @@ export default new Router({
       path: '/',
       name: 'SignIn-view',
       component: require('@/components/SignIn').default
+    },
+    {
+      path: '/home',
+      name: 'parent',
+      component: require('@/components/exam/parent').default,
+      children: [
+        {
+          path: '/',
+          component: require('@/components/exam/instructions').default
+        }
+      ]
     }
   ]
 })

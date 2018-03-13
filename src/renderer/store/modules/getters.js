@@ -1,5 +1,8 @@
 export default {
-  doneTodos: state => {
-
+  getInstructions (state) {
+    return state.instructions
+  },
+  getLang (state) {
+    return state.instructions
   }
 }
