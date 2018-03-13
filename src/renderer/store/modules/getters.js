@@ -3,6 +3,6 @@ export default {
     return state.instructions
   },
   getLang (state) {
-    return state.instructions
+    return state.lang
   }
 }
