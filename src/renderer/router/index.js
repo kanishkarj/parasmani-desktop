@@ -12,12 +12,15 @@ export default new Router({
     },
     {
       path: '/home',
-      name: 'parent',
       component: require('@/components/exam/parent').default,
       children: [
         {
           path: '/',
           component: require('@/components/exam/instructions').default
+        },
+        {
+          path: '/start',
+          component: require('@/components/exam/home').default
         }
       ]
     }

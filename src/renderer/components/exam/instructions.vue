@@ -6,7 +6,8 @@
           <v-flex xs11 sm11 md11>
             <v-card class="elevation-12">
               <v-toolbar dark color="primary">
-                <v-toolbar-title>Instructions</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-title text-md-center>Instructions</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
               <v-card-text>
@@ -15,7 +16,7 @@
               </v-card-text>
               <v-card-actions align-center>
                 <v-spacer></v-spacer>
-                <v-btn color="primary">Start test</v-btn>
+                <v-btn color="primary" @click="startTest">Start test</v-btn>
                 <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>
@@ -36,7 +37,9 @@ export default {
     }
   },
   methods: {
-
+    startTest () {
+      this.$store.dispatch('startExam')
+    }
   },
   computed: {
     instructionsMarkdown: function () {

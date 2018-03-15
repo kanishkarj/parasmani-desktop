@@ -4,5 +4,8 @@ export default {
   signIn (context, payload) {
     console.log(payload)
     router.push('/home')
+  },
+  startExam (context, payload) {
+    router.push('/start')
   }
 }

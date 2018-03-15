@@ -4,5 +4,9 @@ export default {
   },
   getLang (state) {
     return state.lang
+  },
+  getQuestions (state) {
+    const data = require('./data.js')
+    return data
   }
 }
