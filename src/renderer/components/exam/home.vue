@@ -7,12 +7,13 @@
       class="mt-4"
     >
     <div class="text-xs-center pt-4">
-      <div class="pt-4" v-for="i in 4">
+      <div class="pt-4" v-for="i in 4" :key='i'>
         <h3 class="">Set {{i}}</h3>
-        <v-btn v-for="j in questions[1].Set.length"
+        <v-btn v-for="j in questions[i-1].Set.length"
          class="mr-1 ml-0"
          fab dark small
-         color="primary"
+         :color='questions[i-1].Set[j-1].color'
+         :key='j'
          @click="setCurrQuestion(i,j)"
          >
            {{j}}
@@ -21,7 +22,7 @@
    </div>
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
-      <v-toolbar-title>{{title}}</v-toolbar-title>
+      <v-toolbar-title>{{title}} : Set {{currSet + 1}} | {{currQ+1}} </v-toolbar-title>
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
@@ -34,10 +35,10 @@
                     {{currQuest.questions}}
                   </h2>
                     <v-radio-group v-model="opt">
-                      <v-radio :label="currQuest.op1"></v-radio>
-                      <v-radio :label="currQuest.op2"></v-radio>
-                      <v-radio :label="currQuest.op3"></v-radio>
-                      <v-radio :label="currQuest.op4"></v-radio>
+                      <v-radio :label="currQuest.op1" value="1"></v-radio>
+                      <v-radio :label="currQuest.op2" value="2"></v-radio>
+                      <v-radio :label="currQuest.op3" value="3"></v-radio>
+                      <v-radio :label="currQuest.op4" value="4"></v-radio>
                     </v-radio-group>
               </v-flex>
               </v-layout>
@@ -57,6 +58,10 @@
         <span>Mark for Review</span>
       </v-btn>
       <v-spacer></v-spacer>
+      <v-btn flat value="recent" v-if="opt>0" @click="removeAns">
+        <span>Remove</span>
+      </v-btn>
+      <v-spacer v-if="opt>0"></v-spacer>
       <v-btn flat value="recent" @click="nextQ">
         <span>Next</span>
         <v-icon>arrow_forward</v-icon>
@@ -73,30 +78,54 @@ export default {
       questions: [],
       currSet: 0,
       currQ: 0,
-      opt: 3,
+      opt: 0,
       now: Math.trunc((new Date()).getTime() / 1000)
     }
   },
   methods: {
+    changedAnsAfter: function () {
+      if (this.questions[this.currSet].Set[this.currQ].ans) {
+        this.opt = this.questions[this.currSet].Set[this.currQ].ans
+      } else {
+        this.opt = 0
+      }
+    },
+    changedAnsBefore: function () {
+      if (this.questions[this.currSet].Set[this.currQ].ans > 0) {
+        this.questions[this.currSet].Set[this.currQ].color = 'success'
+      } else {
+        this.questions[this.currSet].Set[this.currQ].color = 'red'
+      }
+    },
     setCurrQuestion: function (set, q) {
+      this.changedAnsBefore()
       this.currSet = set - 1
       this.currQ = q - 1
+      this.changedAnsAfter()
     },
     nextQ: function () {
-      if (this.currQ < 30) {
+      this.changedAnsBefore()
+      if (this.currQ < 20) {
         this.currQ++
       } else {
         this.currQ = 0
         this.currSet++
       }
+      this.changedAnsAfter()
+    },
+    removeAns: function () {
+      this.opt = 0
+      this.questions[this.currSet].Set[this.currQ].ans = 0
     },
     prevQ: function () {
+      this.changedAnsBefore()
       if (this.currQ > 0) {
         this.currQ--
       } else if (this.currSet > 0) {
         this.currSet--
         this.currQ = 0
       }
+      this.changedAnsAfter()
     }
   },
   computed: {
@@ -109,6 +138,14 @@ export default {
     this.$store.dispatch('updateQuestions').then(() => {
       this.questions = (this.$store.getters.getQuestions)
     })
+  },
+  watch: {
+    opt: function () {
+      this.questions[this.currSet].Set[this.currQ].ans = this.opt
+    },
+    currQ: function () {
+
+    }
   }
 }
 </script>
