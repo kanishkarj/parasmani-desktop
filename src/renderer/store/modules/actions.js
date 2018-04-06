@@ -4,16 +4,17 @@ import http from '../../axios'
 export default {
   signIn (context, payload) {
     console.log(payload)
-    // http.NotAuthAxios.post('login', {
-    //   userId: payload.userId,
-    //   password: payload.password
-    // }).then((response) => {
-    //   console.log(response.data)
-    //   sessionStorage.setItem('token', response.data)
-    // })
-    router.push('/home')
+    http.NotAuthAxios.post('login', {
+      userId: payload.userId,
+      password: payload.password
+    }).then((response) => {
+      console.log(response.data)
+      sessionStorage.setItem('token', response.data)
+      router.push('/home')
+    })
   },
   prepExam ({commit, state}, payload) {
+    console.log(state.exam)
     commit('setQuestionVars')
   },
   startExam ({commit, state}, payload) {
@@ -44,7 +45,7 @@ export default {
     }
     console.log(JSON.stringify(finalResponse))
     http.AuthAxios.post('submit', finalResponse).then(() => {
-      router.push('/done')
     })
+    router.push('/done')
   }
 }

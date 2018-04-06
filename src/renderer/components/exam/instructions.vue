@@ -63,13 +63,14 @@ export default {
   },
   created: function () {
     /*eslint-disable */
-    this.instructions = this.$store.getters.getInstructions
+    // this.instructions = this.$store.getters.getInstructions
     const self = this
     http.AuthAxios.get('exam').then(function (val) {
-      // self.$store.commit('setExamData', val.data)
+      self.$store.commit('setExamData', val.data)
       self.instructions = self.$store.getters.getInstructions
       self.languages = self.$store.getters.getLang
       self.loaded = true
+      // console.log(self.$store.getters.getInstructions)
     })
   }
 }
