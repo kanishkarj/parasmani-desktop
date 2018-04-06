@@ -2,7 +2,7 @@ export default {
   getInstructions (state) {
     return state.exam.instruction
   },
-  getLang (state) {
+  getLanguages (state) {
     let arr = []
     state.exam.question_papers.forEach((val) => {
       arr.push(val.language)
@@ -17,5 +17,8 @@ export default {
   },
   getDuration (state) {
     return state.duration
+  },
+  getLang (state) {
+    return state.lang
   }
 }

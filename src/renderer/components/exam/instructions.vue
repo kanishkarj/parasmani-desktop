@@ -68,7 +68,7 @@ export default {
     http.AuthAxios.get('exam').then(function (val) {
       self.$store.commit('setExamData', val.data)
       self.instructions = self.$store.getters.getInstructions
-      self.languages = self.$store.getters.getLang
+      self.languages = self.$store.getters.getLanguages
       self.loaded = true
       // console.log(self.$store.getters.getInstructions)
     })

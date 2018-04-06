@@ -2,31 +2,12 @@ import router from '../../router'
 import http from '../../axios'
 
 export default {
-  signIn (context, payload) {
-    console.log(payload)
-    http.NotAuthAxios.post('login', {
-      userId: payload.userId,
-      password: payload.password
-    }).then((response) => {
-      console.log(response.data)
-      sessionStorage.setItem('token', response.data)
-      router.push('/home')
-    })
-  },
   prepExam ({commit, state}, payload) {
     console.log(state.exam)
     commit('setQuestionVars')
   },
   startExam ({commit, state}, payload) {
     router.push('/start')
-  },
-  updateQuestions ({commit, state}, payload) {
-    const data = require('./data')
-    Promise.all([
-      commit('assignQuestions', data)
-    ]).then(() => {
-      commit('randomizeQuest')
-    })
   },
   submitPaper ({commit, state}, payload) {
     let responses = []
@@ -37,6 +18,7 @@ export default {
         responses.push({
           'question_id': qs._id,
           'response': qs.response,
+          'subject': qs.subject,
           'set': sets[i]
         })
       })
@@ -44,7 +26,7 @@ export default {
     })
     let finalResponse = {
       'Student_id': '1231gwer3',
-      'questionpaper_id': state.QPid,
+      'language': state.lang,
       'responses': responses
     }
     console.log(JSON.stringify(finalResponse))

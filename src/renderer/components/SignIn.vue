@@ -25,22 +25,48 @@
         </v-layout>
       </v-container>
     </v-content>
+    <v-dialog v-model="dialog" max-width="500px">
+        <v-card>
+          <v-card-title>
+            <h2>Error</h2>
+          </v-card-title>
+          <v-card-text>
+            {{error}}
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" flat @click.stop="dialog=false">Close</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
   </v-app>
 </template>
 
 <script>
+  import http from '../axios'
+  import router from '../router'
+
   export default {
     data: function () {
       return {
         userId: '',
-        password: ''
+        password: '',
+        error: '',
+        dialog: false
       }
     },
     methods: {
       login (event) {
-        this.$store.dispatch('signIn', {
+        http.NotAuthAxios.post('login', {
           userId: this.userId,
           password: this.password
+        }).then((response) => {
+          console.log(response.data)
+          sessionStorage.setItem('token', response.data)
+          router.push('/home')
+        }).catch((err) => {
+          this.error = err.toString()
+          this.dialog = true
+          console.log(this.err)
         })
       }
     },

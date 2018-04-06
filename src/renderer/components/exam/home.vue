@@ -99,12 +99,8 @@
 </template>
 
 <script>
-// import http from '../../axios'
+import router from '../../router'
 const Stopwatch = require('timer-stopwatch')
-
-const timer = new Stopwatch(3 * 3600 * 1000, {
-  refreshRateMS: 1000 // How often the clock should be updated
-})
 
 export default {
   data: function () {
@@ -123,8 +119,9 @@ export default {
       sec: 0,
       min: 0,
       hr: 0,
-      dialog: true,
-      cheatCount: 2,
+      dialog: false,
+      cheatCount: 3,
+      timer: {},
       toggle_exclusive: null
     }
   },
@@ -197,21 +194,31 @@ export default {
     self.$store.dispatch('prepExam').then(() => {
       self.$store.commit('randomizeQuest', 'English')
       self.questions = (self.$store.getters.getQuestions)
-      console.log(self.$store.getters.getDuration)
+      const timer = new Stopwatch(self.$store.getters.getDuration * 60 * 1000, {
+        refreshRateMS: 500 // How often the clock should be updated self.$store.getters.getDuration
+      })
+      self.timer = timer
       self.loaded = true
+      self.timer.onTime(function (time) {
+        self.min = parseInt(time.ms / 1000 / 60) % 60
+        self.sec = parseInt(time.ms / 1000) % 60
+        self.hr = parseInt(time.ms / 1000 / 3600)
+        if (time.ms < 500) {
+          self.submit()
+        }
+      })
+      self.timer.start()
     })
     // http.AuthAxios.get('exam').then(function (val) {
     // console.log(self.$store.getters.getInstructions)
     // })
 
-    timer.onTime(function (time) {
-      self.min = parseInt(time.ms / 1000 / 60) % 60
-      self.sec = parseInt(time.ms / 1000) % 60
-      self.hr = parseInt(time.ms / 1000 / 3600)
-    })
-    timer.start()
     this.$electron.ipcRenderer.on('ping', () => {
-      // this.dialog = true
+      if (this.cheatCount < 1) {
+        router.push('/')
+      } else {
+        this.dialog = true
+      }
     })
   },
   watch: {

@@ -1,22 +1,25 @@
 
 export default {
   setQuestionVars: (state) => {
-    state.exam.question_papers[0].A.forEach((val) => {
-      val.color = 'red'
-      val.response = '0'
+    state.exam.question_papers.forEach((qp) => {
+      qp.A.forEach((val) => {
+        val.color = 'red'
+        val.response = '0'
+      })
+      qp.B.forEach((val) => {
+        val.color = 'red'
+        val.response = '0'
+      })
+      qp.C.forEach((val) => {
+        val.color = 'red'
+        val.response = '0'
+      })
+      qp.D.forEach((val) => {
+        val.color = 'red'
+        val.response = '0'
+      })
     })
-    state.exam.question_papers[0].B.forEach((val) => {
-      val.color = 'red'
-      val.response = '0'
-    })
-    state.exam.question_papers[0].C.forEach((val) => {
-      val.color = 'red'
-      val.response = '0'
-    })
-    state.exam.question_papers[0].D.forEach((val) => {
-      val.color = 'red'
-      val.response = '0'
-    })
+    console.log(state.exam.question_papers)
   },
   randomizeQuest: (state, lang) => {
     let SetA = []
