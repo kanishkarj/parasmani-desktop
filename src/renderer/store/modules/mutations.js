@@ -25,11 +25,14 @@ export default {
     let SetD = []
     state.exam.subjects.forEach((sub) => {
       state.exam.question_papers.forEach((qp) => {
+        console.log(state.exam.question_papers)
         if (qp.language === lang) {
           state.QPid = qp._id
           let QL = []
+          console.log(sub.title)
           qp.A.forEach((q) => {
             if (q.subject === sub.title) {
+              console.log(sub.title)
               QL.push(q)
             }
           })
@@ -61,6 +64,7 @@ export default {
         }
       })
     })
+    console.log(SetA)
     let arr = []
     arr.push({Set: SetA})
     arr.push({Set: SetB})

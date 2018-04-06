@@ -1,5 +1,5 @@
 <template lang="html">
-  <v-app id="inspire">
+  <v-app id="inspire" v-if="loaded">
     <v-navigation-drawer
       clipped
       fixed
@@ -99,6 +99,7 @@
 </template>
 
 <script>
+// import http from '../../axios'
 const Stopwatch = require('timer-stopwatch')
 
 const timer = new Stopwatch(3 * 3600 * 1000, {
@@ -108,6 +109,7 @@ const timer = new Stopwatch(3 * 3600 * 1000, {
 export default {
   data: function () {
     return {
+      loaded: false,
       title: '',
       questions: [],
       currSet: 0,
@@ -190,12 +192,18 @@ export default {
   },
   created: function () {
     this.title = this.$store.state.title
-    this.$store.dispatch('prepExam').then(() => {
-      this.$store.commit('randomizeQuest', 'english')
-      this.questions = (this.$store.getters.getQuestions)
-    })
-
     var self = this
+    // self.$store.commit('setExamData', val.data)
+    self.$store.dispatch('prepExam').then(() => {
+      self.$store.commit('randomizeQuest', 'English')
+      self.questions = (self.$store.getters.getQuestions)
+      console.log(self.questions)
+      self.loaded = true
+    })
+    // http.AuthAxios.get('exam').then(function (val) {
+    // console.log(self.$store.getters.getInstructions)
+    // })
+
     timer.onTime(function (time) {
       self.min = parseInt(time.ms / 1000 / 60) % 60
       self.sec = parseInt(time.ms / 1000) % 60
