@@ -23,6 +23,10 @@ export default new Router({
           component: require('@/components/exam/home').default
         }
       ]
+    },
+    {
+      path: '/done',
+      component: require('@/components/exam/done').default
     }
   ]
 })

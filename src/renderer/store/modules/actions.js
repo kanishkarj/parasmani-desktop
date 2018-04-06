@@ -1,5 +1,5 @@
 import router from '../../router'
-// import http from '../../axios'
+import http from '../../axios'
 
 export default {
   signIn (context, payload) {
@@ -19,12 +19,32 @@ export default {
   startExam ({commit, state}, payload) {
     router.push('/start')
   },
-  updateQuestions (context, payload) {
+  updateQuestions ({commit, state}, payload) {
     const data = require('./data')
     Promise.all([
-      context.commit('assignQuestions', data)
+      commit('assignQuestions', data)
     ]).then(() => {
-      context.commit('randomizeQuest')
+      commit('randomizeQuest')
+    })
+  },
+  submitPaper ({commit, state}, payload) {
+    let responses = []
+    payload.forEach((set) => {
+      set.Set.forEach((qs) => {
+        responses.push({
+          'question_id': qs._id,
+          'response': qs.response
+        })
+      })
+    })
+    let finalResponse = {
+      'Student_id': '1231gwer3',
+      'questionpaper_id': state.QPid,
+      'responses': responses
+    }
+    console.log(JSON.stringify(finalResponse))
+    http.AuthAxios.post('submit', finalResponse).then(() => {
+      router.push('/done')
     })
   }
 }

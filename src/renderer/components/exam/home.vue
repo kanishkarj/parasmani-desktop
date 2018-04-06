@@ -180,7 +180,7 @@ export default {
       this.questions[this.currSet].Set[this.currQ].response = 0
     },
     submit: function () {
-      console.log(this.questions)
+      this.$store.dispatch('submitPaper', this.questions)
     }
   },
   computed: {

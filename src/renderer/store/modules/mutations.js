@@ -1,20 +1,21 @@
 
 export default {
-  assignQuestions: (state, data) => {
-    state.questions = data
-  },
   setQuestionVars: (state) => {
     state.exam.question_papers[0].A.forEach((val) => {
       val.color = 'red'
+      val.response = '0'
     })
     state.exam.question_papers[0].B.forEach((val) => {
       val.color = 'red'
+      val.response = '0'
     })
     state.exam.question_papers[0].C.forEach((val) => {
       val.color = 'red'
+      val.response = '0'
     })
     state.exam.question_papers[0].D.forEach((val) => {
       val.color = 'red'
+      val.response = '0'
     })
   },
   randomizeQuest: (state, lang) => {
@@ -25,6 +26,7 @@ export default {
     state.exam.subjects.forEach((sub) => {
       state.exam.question_papers.forEach((qp) => {
         if (qp.language === lang) {
+          state.QPid = qp._id
           let QL = []
           qp.A.forEach((q) => {
             if (q.subject === sub.title) {
@@ -59,7 +61,6 @@ export default {
         }
       })
     })
-    console.log(SetA, SetB, SetC, SetD)
     let arr = []
     arr.push({Set: SetA})
     arr.push({Set: SetB})
