@@ -1,17 +1,76 @@
 
 export default {
   assignQuestions: (state, data) => {
-    state.questions = data.default
+    state.questions = data
   },
-  randomizeQuest: state => {
-    for (let i = 0; i < 4; i++) {
-      state.questions[i].Set.sort(function (a, b) { return 30 - Math.random() })
-      state.questions[i].Set.splice(20, 10)
-      for (let j = 0; j < 20; j++) {
-        state.questions[i].Set[j].color = 'red'
-        state.questions[i].Set[j].ans = 0
-        state.questions[i].Set[j].marked = false
-      }
-    }
+  setQuestionVars: (state) => {
+    state.exam.question_papers[0].A.forEach((val) => {
+      val.color = 'red'
+    })
+    state.exam.question_papers[0].B.forEach((val) => {
+      val.color = 'red'
+    })
+    state.exam.question_papers[0].C.forEach((val) => {
+      val.color = 'red'
+    })
+    state.exam.question_papers[0].D.forEach((val) => {
+      val.color = 'red'
+    })
+  },
+  randomizeQuest: (state, lang) => {
+    let SetA = []
+    let SetB = []
+    let SetC = []
+    let SetD = []
+    state.exam.subjects.forEach((sub) => {
+      state.exam.question_papers.forEach((qp) => {
+        if (qp.language === lang) {
+          let QL = []
+          qp.A.forEach((q) => {
+            if (q.subject === sub.title) {
+              QL.push(q)
+            }
+          })
+          SetA.push(...QL.slice(0, sub.num_in_set_A))
+
+          QL = []
+          qp.B.forEach((q) => {
+            if (q.subject === sub.title) {
+              QL.push(q)
+            }
+          })
+          SetB.push(...QL.slice(0, sub.num_in_set_B))
+
+          QL = []
+          qp.C.forEach((q) => {
+            if (q.subject === sub.title) {
+              QL.push(q)
+            }
+          })
+          SetC.push(...QL.slice(0, sub.num_in_set_A))
+
+          QL = []
+          qp.D.forEach((q) => {
+            if (q.subject === sub.title) {
+              QL.push(q)
+            }
+          })
+          SetD.push(...QL.slice(0, sub.num_in_set_A))
+        }
+      })
+    })
+    console.log(SetA, SetB, SetC, SetD)
+    let arr = []
+    arr.push({Set: SetA})
+    arr.push({Set: SetB})
+    arr.push({Set: SetC})
+    arr.push({Set: SetD})
+    state.questions = arr
+  },
+  setExamData: (state, data) => {
+    state.exam = data
+  },
+  setLang: (state, data) => {
+    state.lang = data
   }
 }

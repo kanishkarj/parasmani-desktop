@@ -20,7 +20,7 @@
            {{j}}
         </v-btn>
       </div>
-      <v-btn class="primary mt-4">
+      <v-btn class="primary mt-4" @click="submit">
         <span>Submit</span>
       </v-btn>
    </div>
@@ -37,17 +37,20 @@
             <v-container fluid fill-height>
               <v-layout justify-center >
                 <v-flex>
-                  <h1 class="mb-5">
-                    Set {{currSet + 1}} | Question {{currQ+1}}
+                  <h1 class="mb-1">
+                    {{currQuest.subject}}
                   </h1>
+                  <h3 class="mb-5">
+                    Set {{currSet + 1}} | Question {{currQ+1}}
+                  </h3>
                   <h2>
-                    {{currQuest.questions}}
+                    {{currQuest.title}}
                   </h2>
                     <v-radio-group v-model="opt">
-                      <v-radio :label="currQuest.op1" value="1"></v-radio>
-                      <v-radio :label="currQuest.op2" value="2"></v-radio>
-                      <v-radio :label="currQuest.op3" value="3"></v-radio>
-                      <v-radio :label="currQuest.op4" value="4"></v-radio>
+                      <v-radio :label="currQuest.options.A.value" value="1"></v-radio>
+                      <v-radio :label="currQuest.options.B.value" value="2"></v-radio>
+                      <v-radio :label="currQuest.options.C.value" value="3"></v-radio>
+                      <v-radio :label="currQuest.options.D.value" value="4"></v-radio>
                     </v-radio-group>
               </v-flex>
               </v-layout>
@@ -125,8 +128,9 @@ export default {
   },
   methods: {
     changeAfter: function () {
-      if (this.questions[this.currSet].Set[this.currQ].ans) {
-        this.opt = this.questions[this.currSet].Set[this.currQ].ans
+      if (this.questions[this.currSet].Set[this.currQ].response) {
+        this.opt = this.questions[this.currSet].Set[this.currQ].response
+        console.log(this.op)
       } else {
         this.opt = 0
       }
@@ -136,9 +140,10 @@ export default {
       console.log(this.questions[this.currSet].Set[this.currQ].marked)
     },
     changeBefore: function () {
+      console.log(this.questions[this.currSet].Set[this.currQ].response)
       if (this.questions[this.currSet].Set[this.currQ].marked) {
         this.questions[this.currSet].Set[this.currQ].color = 'primary'
-      } else if (this.questions[this.currSet].Set[this.currQ].ans > 0) {
+      } else if (this.questions[this.currSet].Set[this.currQ].response > 0) {
         this.questions[this.currSet].Set[this.currQ].color = 'success'
       } else {
         this.questions[this.currSet].Set[this.currQ].color = 'red'
@@ -152,14 +157,13 @@ export default {
     },
     nextQ: function () {
       this.changeBefore()
-      if (this.currQ < 20 - 1) {
+      if (this.currQ < this.questions[this.currSet].Set.length - 1) {
         this.currQ++
       } else {
         this.currQ = 0
         this.currSet++
       }
       this.changeAfter()
-      console.log(this.time)
     },
     prevQ: function () {
       this.changeBefore()
@@ -167,13 +171,16 @@ export default {
         this.currQ--
       } else if (this.currSet > 0) {
         this.currSet--
-        this.currQ = 20 - 1
+        this.currQ = this.questions[this.currSet].Set.length - 1
       }
       this.changeAfter()
     },
     removeAns: function () {
       this.opt = 0
-      this.questions[this.currSet].Set[this.currQ].ans = 0
+      this.questions[this.currSet].Set[this.currQ].response = 0
+    },
+    submit: function () {
+      console.log(this.questions)
     }
   },
   computed: {
@@ -183,10 +190,11 @@ export default {
   },
   created: function () {
     this.title = this.$store.state.title
-    this.$store.dispatch('updateQuestions').then(() => {
+    this.$store.dispatch('prepExam').then(() => {
+      this.$store.commit('randomizeQuest', 'english')
       this.questions = (this.$store.getters.getQuestions)
-      console.log(this.questions)
     })
+
     var self = this
     timer.onTime(function (time) {
       self.min = parseInt(time.ms / 1000 / 60) % 60
@@ -195,12 +203,13 @@ export default {
     })
     timer.start()
     this.$electron.ipcRenderer.on('ping', () => {
-      this.dialog = true
+      // this.dialog = true
     })
   },
   watch: {
     opt: function () {
-      this.questions[this.currSet].Set[this.currQ].ans = this.opt
+      this.questions[this.currSet].Set[this.currQ].response = this.opt
+      console.log(this.questions[this.currSet].Set[this.currQ].response, this.opt)
     },
     currQ: function () {
       this.questions[this.currSet].Set[this.currQ].marked ? this.toggle_exclusive = 0 : this.toggle_exclusive = null

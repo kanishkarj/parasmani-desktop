@@ -13,14 +13,6 @@
                 <v-form>
                   <v-text-field prepend-icon="person" name="userId" label="User Id" type="text" v-model="userId"></v-text-field>
                   <v-text-field prepend-icon="lock" name="password" label="Password" id="password" type="password"  v-model="password"></v-text-field>
-                  <v-radio-group v-model="radioGroup">
-                    <v-radio
-                      v-for="n in languages.length"
-                      :key="n"
-                      :label="languages[n-1]"
-                      :value="n"
-                    ></v-radio>
-                  </v-radio-group>
                 </v-form>
               </v-card-text>
               <v-card-actions>
@@ -41,8 +33,7 @@
     data: function () {
       return {
         userId: '',
-        password: '',
-        languages: ['']
+        password: ''
       }
     },
     methods: {
@@ -54,7 +45,6 @@
       }
     },
     created: function () {
-      this.languages = this.$store.getters.getLang
     }
 
   }
