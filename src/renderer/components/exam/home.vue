@@ -197,7 +197,7 @@ export default {
     self.$store.dispatch('prepExam').then(() => {
       self.$store.commit('randomizeQuest', 'English')
       self.questions = (self.$store.getters.getQuestions)
-      console.log(self.questions)
+      console.log(self.$store.getters.getDuration)
       self.loaded = true
     })
     // http.AuthAxios.get('exam').then(function (val) {

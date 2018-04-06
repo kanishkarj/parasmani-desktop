@@ -74,6 +74,7 @@ export default {
   },
   setExamData: (state, data) => {
     state.exam = data
+    state.duration = data.duration
   },
   setLang: (state, data) => {
     state.lang = data

@@ -30,13 +30,17 @@ export default {
   },
   submitPaper ({commit, state}, payload) {
     let responses = []
+    let i = 0
+    let sets = ['A', 'B', 'C', 'D']
     payload.forEach((set) => {
       set.Set.forEach((qs) => {
         responses.push({
           'question_id': qs._id,
-          'response': qs.response
+          'response': qs.response,
+          'set': sets[i]
         })
       })
+      i++
     })
     let finalResponse = {
       'Student_id': '1231gwer3',
@@ -44,8 +48,8 @@ export default {
       'responses': responses
     }
     console.log(JSON.stringify(finalResponse))
-    http.AuthAxios.post('submit', finalResponse).then(() => {
+    http.AuthAxios.post('/response', finalResponse).then(() => {
+      // router.push('/done')
     })
-    router.push('/done')
   }
 }

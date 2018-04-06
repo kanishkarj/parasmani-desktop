@@ -14,5 +14,8 @@ export default {
   },
   getExam (state) {
     return state.exam
+  },
+  getDuration (state) {
+    return state.duration
   }
 }
