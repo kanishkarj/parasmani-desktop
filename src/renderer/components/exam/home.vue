@@ -190,7 +190,6 @@ export default {
   created: function () {
     this.title = this.$store.state.title
     var self = this
-    // self.$store.commit('setExamData', val.data)
     self.$store.dispatch('prepExam').then(() => {
       self.$store.commit('randomizeQuest', 'English')
       self.questions = (self.$store.getters.getQuestions)
@@ -257,5 +256,5 @@ export default {
 </script>
 
 <style lang="css">
-
+@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css');
 </style>

@@ -60,8 +60,8 @@
           userId: this.userId,
           password: this.password
         }).then((response) => {
-          console.log(response.data)
-          sessionStorage.setItem('token', response.data)
+          sessionStorage.setItem('token', response.data.token)
+          sessionStorage.setItem('student_id', response.data.user._id)
           router.push('/home')
         }).catch((err) => {
           this.error = err.toString()

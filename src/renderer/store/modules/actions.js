@@ -25,13 +25,13 @@ export default {
       i++
     })
     let finalResponse = {
-      'Student_id': '1231gwer3',
+      'Student_id': sessionStorage.getItem('student_id'),
       'language': state.lang,
       'responses': responses
     }
     console.log(JSON.stringify(finalResponse))
     http.AuthAxios.post('/response', finalResponse).then(() => {
-      // router.push('/done')
+      router.push('/done')
     })
   }
 }

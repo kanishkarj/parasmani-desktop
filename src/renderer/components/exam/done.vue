@@ -7,11 +7,13 @@
             <v-card class="elevation-12">
               <v-toolbar dark color="primary">
                 <v-spacer></v-spacer>
-                <v-toolbar-title text-md-center>Done!</v-toolbar-title>
+                <v-toolbar-title text-md-center>Congratulations!</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
               <v-card-text>
-                <p class="ma-4" v-html="text"></p>
+                <p class="ma-4">
+                  Hello! Congratulations, you have submitted the paper. 
+                </p>
               </v-card-text>
               <v-card-actions align-center>
                 <v-spacer></v-spacer>

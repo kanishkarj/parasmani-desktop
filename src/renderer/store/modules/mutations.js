@@ -81,5 +81,8 @@ export default {
   },
   setLang: (state, data) => {
     state.lang = data
+  },
+  setStudentId: (state, data) => {
+    state.student_id = data
   }
 }

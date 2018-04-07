@@ -10,6 +10,7 @@ export default {
     }
   }),
   NotAuthAxios: axios.create({
-    baseURL: 'https://intense-scrubland-78603.herokuapp.com/'
+    // baseURL: 'https://intense-scrubland-78603.herokuapp.com/'
+    baseURL: 'http://localhost:4000/'
   })
 }
