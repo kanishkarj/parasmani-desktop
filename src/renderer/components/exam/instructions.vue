@@ -65,6 +65,7 @@ export default {
     /*eslint-disable */
     // this.instructions = this.$store.getters.getInstructions
     const self = this
+    console.log(window.localStorage.getItem('token'))
     http.AuthAxios.get('exam').then(function (val) {
       self.$store.commit('setExamData', val.data)
       self.instructions = self.$store.getters.getInstructions

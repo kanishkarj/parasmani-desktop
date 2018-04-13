@@ -1,3 +1,4 @@
+const shuffleArray = require('shuffle-array')
 
 export default {
   setQuestionVars: (state) => {
@@ -69,10 +70,10 @@ export default {
     })
     console.log(SetA)
     let arr = []
-    arr.push({Set: SetA})
-    arr.push({Set: SetB})
-    arr.push({Set: SetC})
-    arr.push({Set: SetD})
+    arr.push({Set: shuffleArray(SetA)})
+    arr.push({Set: shuffleArray(SetB)})
+    arr.push({Set: shuffleArray(SetC)})
+    arr.push({Set: shuffleArray(SetD)})
     state.questions = arr
   },
   setExamData: (state, data) => {

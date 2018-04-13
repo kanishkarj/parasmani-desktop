@@ -6,7 +6,7 @@ export default {
     // baseURL: 'http://10.250.6.252:4000/',
     baseURL: 'http://localhost:4000/',
     headers: {
-      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+      'Authorization': `Bearer ${window.localStorage.getItem('token')}`
     }
   }),
   NotAuthAxios: axios.create({

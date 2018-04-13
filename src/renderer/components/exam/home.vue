@@ -141,7 +141,7 @@ export default {
     changeBefore: function () {
       console.log(this.questions[this.currSet].Set[this.currQ].response)
       if (this.questions[this.currSet].Set[this.currQ].marked) {
-        this.questions[this.currSet].Set[this.currQ].color = 'primary'
+        this.questions[this.currSet].Set[this.currQ].color = 'amber'
       } else if (this.questions[this.currSet].Set[this.currQ].response > 0) {
         this.questions[this.currSet].Set[this.currQ].color = 'success'
       } else {

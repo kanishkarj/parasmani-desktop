@@ -25,7 +25,7 @@ export default {
       i++
     })
     let finalResponse = {
-      'Student_id': sessionStorage.getItem('student_id'),
+      'Student_id': window.localStorage.getItem('student_id'),
       'language': state.lang,
       'responses': responses
     }
