@@ -43,8 +43,8 @@
                   <h3 class="mb-5">
                     Set {{currSet + 1}} | Question {{currQ+1}}
                   </h3>
-                  <h2>
-                    {{currQuest.title}}
+                  <h2 v-html="question">
+
                   </h2>
                     <v-radio-group v-model="opt">
                       <v-radio :label="currQuest.options.A.value" value="1"></v-radio>
@@ -100,6 +100,8 @@
 
 <script>
 import router from '../../router'
+import marked from 'marked'
+
 const Stopwatch = require('timer-stopwatch')
 
 export default {
@@ -185,6 +187,9 @@ export default {
   computed: {
     currQuest: function () {
       return this.questions[this.currSet].Set[this.currQ]
+    },
+    question: function () {
+      return marked(this.questions[this.currSet].Set[this.currQ].title)
     }
   },
   created: function () {
