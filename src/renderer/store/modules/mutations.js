@@ -33,13 +33,12 @@ export default {
         if (qp.language === lang) {
           state.QPid = qp._id
           let QL = []
-          console.log(sub.title)
           qp.A.forEach((q) => {
             if (q.subject === sub.title) {
-              console.log(sub.title)
               QL.push(q)
             }
           })
+          QL = shuffleArray(QL)
           SetA.push(...QL.slice(0, sub.num_in_set_A))
 
           QL = []
@@ -48,6 +47,7 @@ export default {
               QL.push(q)
             }
           })
+          QL = shuffleArray(QL)
           SetB.push(...QL.slice(0, sub.num_in_set_B))
 
           QL = []
@@ -56,6 +56,7 @@ export default {
               QL.push(q)
             }
           })
+          QL = shuffleArray(QL)
           SetC.push(...QL.slice(0, sub.num_in_set_A))
 
           QL = []
@@ -64,6 +65,7 @@ export default {
               QL.push(q)
             }
           })
+          QL = shuffleArray(QL)
           SetD.push(...QL.slice(0, sub.num_in_set_A))
         }
       })

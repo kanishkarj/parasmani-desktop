@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu } from 'electron'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -19,9 +19,11 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
     useContentSize: true,
-    width: 1000
+    // height: 563,
+    frame: false,
+    fullscreen: true
+    // width: 1000
   })
 
   mainWindow.loadURL(winURL)
@@ -30,12 +32,31 @@ function createWindow () {
     mainWindow = null
   })
 
-  mainWindow.on('blur', () => {
-    mainWindow.webContents.send('ping')
+  mainWindow.webContents.on('devtools-opened', () => {
+    mainWindow.webContents.closeDevTools()
   })
+  console.log('sdfdf')
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+  const template = [
+    {
+      label: 'App',
+      submenu: [
+        {
+          label: 'Exit',
+          accelerator: 'CmdOrCtrl+R',
+          click: function () {
+            app.exit()
+          }
+        }
+      ]
+    }
+  ]
+  const menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
