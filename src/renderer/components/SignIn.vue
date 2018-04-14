@@ -56,7 +56,7 @@
     },
     methods: {
       login (event) {
-        http.NotAuthAxios.post('login', {
+        http.NotAuthAxios.post('/login/student', {
           userId: this.userId,
           password: this.password
         }).then((response) => {
