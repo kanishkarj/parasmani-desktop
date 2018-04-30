@@ -47,10 +47,10 @@
 
                   </h2>
                     <v-radio-group v-model="opt">
-                      <v-radio :label="currQuest.options.A.value" value="1"></v-radio>
-                      <v-radio :label="currQuest.options.B.value" value="2"></v-radio>
-                      <v-radio :label="currQuest.options.C.value" value="3"></v-radio>
-                      <v-radio :label="currQuest.options.D.value" value="4"></v-radio>
+                      <v-radio :label="marked(currQuest.options.A.value)" value="1"></v-radio>
+                      <v-radio :label="marked(currQuest.options.B.value)" value="2"></v-radio>
+                      <v-radio :label="marked(currQuest.options.C.value)" value="3"></v-radio>
+                      <v-radio :label="marked(currQuest.options.D.value)" value="4"></v-radio>
                     </v-radio-group>
               </v-flex>
               </v-layout>
@@ -122,7 +122,7 @@ export default {
       min: 0,
       hr: 0,
       dialog: false,
-      cheatCount: 3,
+      cheatCount: 2,
       timer: {},
       toggle_exclusive: null
     }

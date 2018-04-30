@@ -32,10 +32,14 @@ function createWindow () {
     mainWindow = null
   })
 
-  mainWindow.webContents.on('devtools-opened', () => {
-    mainWindow.webContents.closeDevTools()
+  mainWindow.on('blur', () => {
+    console.log('Sdfsd')
+    mainWindow.webContents.send('ping')
   })
-  console.log('sdfdf')
+
+  mainWindow.webContents.on('devtools-opened', () => {
+    // mainWindow.webContents.closeDevTools()
+  })
 }
 
 app.on('ready', () => {
