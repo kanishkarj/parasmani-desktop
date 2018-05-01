@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, Menu } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -40,26 +40,18 @@ function createWindow () {
   mainWindow.webContents.on('devtools-opened', () => {
     mainWindow.webContents.closeDevTools()
   })
+
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    // For example, only enable application menu keyboard shortcuts when
+    // Ctrl/Cmd are down.
+    event.preventDefault()
+    mainWindow.webContents.setIgnoreMenuShortcuts(!input.control && !input.meta)
+    console.log('aslkdfjaklsdfj')
+  })
 }
 
 app.on('ready', () => {
   createWindow()
-  const template = [
-    {
-      label: 'App',
-      submenu: [
-        {
-          label: 'Exit',
-          accelerator: 'CmdOrCtrl+R',
-          click: function () {
-            app.exit()
-          }
-        }
-      ]
-    }
-  ]
-  const menu = Menu.buildFromTemplate(template)
-  Menu.setApplicationMenu(menu)
 })
 
 app.on('window-all-closed', () => {
